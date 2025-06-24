@@ -1,0 +1,1253 @@
+GAS LISTING /tmp/cceJst07.s 			page 1
+
+
+   1              		.file	"sleepList.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	_ZN9sleepList3addEP3TCBm
+   9              	_ZN9sleepList3addEP3TCBm:
+  10              	.LFB22:
+  11              		.file 1 "src/sleepList.cpp"
+   1:src/sleepList.cpp **** #include "../h/sleepList.hpp"
+   2:src/sleepList.cpp **** 
+   3:src/sleepList.cpp **** sleepList::Elem* sleepList::head = nullptr;
+   4:src/sleepList.cpp **** sleepList::Elem* sleepList::tail = nullptr;
+   5:src/sleepList.cpp **** 
+   6:src/sleepList.cpp **** void sleepList::add(TCB *data, time_t time)
+   7:src/sleepList.cpp **** {
+  12              		.loc 1 7 1
+  13              		.cfi_startproc
+  14              	.LVL0:
+  15 0000 130101FE 		addi	sp,sp,-32
+  16              		.cfi_def_cfa_offset 32
+  17 0004 233C1100 		sd	ra,24(sp)
+  18 0008 23388100 		sd	s0,16(sp)
+  19 000c 23349100 		sd	s1,8(sp)
+  20 0010 23302101 		sd	s2,0(sp)
+  21              		.cfi_offset 1, -8
+  22              		.cfi_offset 8, -16
+  23              		.cfi_offset 9, -24
+  24              		.cfi_offset 18, -32
+  25 0014 13040102 		addi	s0,sp,32
+  26              		.cfi_def_cfa 8, 0
+  27 0018 13090500 		mv	s2,a0
+  28 001c 93840500 		mv	s1,a1
+   8:src/sleepList.cpp **** 
+   9:src/sleepList.cpp ****     Elem* tmp = new Elem(data, time);
+  29              		.loc 1 9 5
+  30              		.loc 1 9 36 is_stmt 0
+  31 0020 13058001 		li	a0,24
+  32              	.LVL1:
+  33 0024 97000000 		call	_Znwm@plt
+  33      E7800000 
+  34              	.LVL2:
+  35              	.LBB8:
+  36              	.LBB9:
+  37              		.file 2 "src/../h/sleepList.hpp"
+   1:src/../h/sleepList.hpp **** #ifndef SLEEPLIST_HPP
+   2:src/../h/sleepList.hpp **** #define SLEEPLIST_HPP
+   3:src/../h/sleepList.hpp **** 
+   4:src/../h/sleepList.hpp **** #include "tcb.hpp"
+   5:src/../h/sleepList.hpp **** #include "../h/scheduler.hpp"
+   6:src/../h/sleepList.hpp **** #include "../lib/hw.h"
+   7:src/../h/sleepList.hpp **** 
+   8:src/../h/sleepList.hpp **** class sleepList
+   9:src/../h/sleepList.hpp **** {
+  10:src/../h/sleepList.hpp **** private:
+  11:src/../h/sleepList.hpp ****     struct Elem
+GAS LISTING /tmp/cceJst07.s 			page 2
+
+
+  12:src/../h/sleepList.hpp ****     {
+  13:src/../h/sleepList.hpp ****         TCB *data;
+  14:src/../h/sleepList.hpp ****         time_t time;
+  15:src/../h/sleepList.hpp ****         Elem *next;
+  16:src/../h/sleepList.hpp **** 
+  17:src/../h/sleepList.hpp ****         Elem(TCB *data, time_t time, Elem *next = nullptr) : data(data), time(time), next(next) {}
+  38              		.loc 2 17 95
+  39 002c 23302501 		sd	s2,0(a0)
+  40 0030 23349500 		sd	s1,8(a0)
+  41 0034 23380500 		sd	zero,16(a0)
+  42              	.LVL3:
+  43              	.LBE9:
+  44              	.LBE8:
+  10:src/sleepList.cpp ****     if(!head)
+  45              		.loc 1 10 5 is_stmt 1
+  46              		.loc 1 10 8 is_stmt 0
+  47 0038 97050000 		ld	a1,.LANCHOR0
+  47      83B50500 
+  48              		.loc 1 10 5
+  49 0040 63880502 		beqz	a1,.L10
+  11:src/sleepList.cpp ****     {
+  12:src/sleepList.cpp ****         head = tmp;
+  13:src/sleepList.cpp ****         tail = tmp;
+  14:src/sleepList.cpp ****         //novo
+  15:src/sleepList.cpp ****         head->next = nullptr;
+  16:src/sleepList.cpp ****         return;
+  17:src/sleepList.cpp ****     }
+  18:src/sleepList.cpp ****     Elem* prev = nullptr;
+  19:src/sleepList.cpp ****     Elem* curr = head;
+  50              		.loc 1 19 11
+  51 0044 93870500 		mv	a5,a1
+  18:src/sleepList.cpp ****     Elem* curr = head;
+  52              		.loc 1 18 11
+  53 0048 13060000 		li	a2,0
+  54              	.L2:
+  55              	.LVL4:
+  20:src/sleepList.cpp ****     for(;curr != nullptr ;prev = curr, curr = curr->next)
+  56              		.loc 1 20 5 is_stmt 1 discriminator 1
+  57              		.loc 1 20 15 discriminator 1
+  58 004c 638A0706 		beqz	a5,.L4
+  21:src/sleepList.cpp ****     {
+  22:src/sleepList.cpp ****         if(curr->time > tmp->time)
+  59              		.loc 1 22 9
+  60              		.loc 1 22 18 is_stmt 0
+  61 0050 83B68700 		ld	a3,8(a5)
+  62              		.loc 1 22 30
+  63 0054 03378500 		ld	a4,8(a0)
+  64              		.loc 1 22 9
+  65 0058 6366D702 		bgtu	a3,a4,.L11
+  23:src/sleepList.cpp ****         {
+  24:src/sleepList.cpp ****             if(prev != nullptr)
+  25:src/sleepList.cpp ****             {
+  26:src/sleepList.cpp ****                 prev->next = tmp;
+  27:src/sleepList.cpp ****                 tmp->next = curr;
+  28:src/sleepList.cpp ****                 curr->time -= tmp->time;
+  29:src/sleepList.cpp ****             }
+  30:src/sleepList.cpp ****             else
+GAS LISTING /tmp/cceJst07.s 			page 3
+
+
+  31:src/sleepList.cpp ****             {
+  32:src/sleepList.cpp ****                 tmp->next = head;
+  33:src/sleepList.cpp ****                 head->time -= tmp->time;
+  34:src/sleepList.cpp ****                 head = tmp;
+  35:src/sleepList.cpp ****             }
+  36:src/sleepList.cpp ****             return;
+  37:src/sleepList.cpp ****         }
+  38:src/sleepList.cpp ****         tmp->time -= curr->time;
+  66              		.loc 1 38 9 is_stmt 1
+  67              		.loc 1 38 19 is_stmt 0
+  68 005c 3307D740 		sub	a4,a4,a3
+  69 0060 2334E500 		sd	a4,8(a0)
+  20:src/sleepList.cpp ****     {
+  70              		.loc 1 20 5 is_stmt 1
+  71              	.LVL5:
+  20:src/sleepList.cpp ****     {
+  72              		.loc 1 20 32 is_stmt 0
+  73 0064 13860700 		mv	a2,a5
+  20:src/sleepList.cpp ****     {
+  74              		.loc 1 20 45
+  75 0068 83B70701 		ld	a5,16(a5)
+  76              	.LVL6:
+  20:src/sleepList.cpp ****     {
+  77              		.loc 1 20 5
+  78 006c 6FF01FFE 		j	.L2
+  79              	.LVL7:
+  80              	.L10:
+  12:src/sleepList.cpp ****         tail = tmp;
+  81              		.loc 1 12 9 is_stmt 1
+  12:src/sleepList.cpp ****         tail = tmp;
+  82              		.loc 1 12 14 is_stmt 0
+  83 0070 97070000 		lla	a5,.LANCHOR0
+  83      93870700 
+  84 0078 23B0A700 		sd	a0,0(a5)
+  13:src/sleepList.cpp ****         //novo
+  85              		.loc 1 13 9 is_stmt 1
+  13:src/sleepList.cpp ****         //novo
+  86              		.loc 1 13 14 is_stmt 0
+  87 007c 23B4A700 		sd	a0,8(a5)
+  15:src/sleepList.cpp ****         return;
+  88              		.loc 1 15 9 is_stmt 1
+  16:src/sleepList.cpp ****     }
+  89              		.loc 1 16 9
+  90 0080 6F008005 		j	.L1
+  91              	.LVL8:
+  92              	.L11:
+  24:src/sleepList.cpp ****             {
+  93              		.loc 1 24 13
+  94 0084 63000602 		beqz	a2,.L6
+  26:src/sleepList.cpp ****                 tmp->next = curr;
+  95              		.loc 1 26 17
+  26:src/sleepList.cpp ****                 tmp->next = curr;
+  96              		.loc 1 26 28 is_stmt 0
+  97 0088 2338A600 		sd	a0,16(a2)
+  27:src/sleepList.cpp ****                 curr->time -= tmp->time;
+  98              		.loc 1 27 17 is_stmt 1
+  27:src/sleepList.cpp ****                 curr->time -= tmp->time;
+GAS LISTING /tmp/cceJst07.s 			page 4
+
+
+  99              		.loc 1 27 27 is_stmt 0
+ 100 008c 2338F500 		sd	a5,16(a0)
+  28:src/sleepList.cpp ****             }
+ 101              		.loc 1 28 17 is_stmt 1
+  28:src/sleepList.cpp ****             }
+ 102              		.loc 1 28 36 is_stmt 0
+ 103 0090 83368500 		ld	a3,8(a0)
+  28:src/sleepList.cpp ****             }
+ 104              		.loc 1 28 28
+ 105 0094 03B78700 		ld	a4,8(a5)
+ 106 0098 3307D740 		sub	a4,a4,a3
+ 107 009c 23B4E700 		sd	a4,8(a5)
+ 108 00a0 6F008003 		j	.L1
+ 109              	.L6:
+  32:src/sleepList.cpp ****                 head->time -= tmp->time;
+ 110              		.loc 1 32 17 is_stmt 1
+  32:src/sleepList.cpp ****                 head->time -= tmp->time;
+ 111              		.loc 1 32 27 is_stmt 0
+ 112 00a4 2338B500 		sd	a1,16(a0)
+  33:src/sleepList.cpp ****                 head = tmp;
+ 113              		.loc 1 33 17 is_stmt 1
+  33:src/sleepList.cpp ****                 head = tmp;
+ 114              		.loc 1 33 28 is_stmt 0
+ 115 00a8 83B78500 		ld	a5,8(a1)
+ 116              	.LVL9:
+ 117 00ac 3387E740 		sub	a4,a5,a4
+ 118 00b0 23B4E500 		sd	a4,8(a1)
+  34:src/sleepList.cpp ****             }
+ 119              		.loc 1 34 17 is_stmt 1
+  34:src/sleepList.cpp ****             }
+ 120              		.loc 1 34 22 is_stmt 0
+ 121 00b4 97070000 		sd	a0,.LANCHOR0,a5
+ 121      23B0A700 
+  36:src/sleepList.cpp ****         }
+ 122              		.loc 1 36 13 is_stmt 1
+ 123 00bc 6F00C001 		j	.L1
+ 124              	.LVL10:
+ 125              	.L4:
+  39:src/sleepList.cpp ****     }
+  40:src/sleepList.cpp ****     tail->next = tmp;
+ 126              		.loc 1 40 5
+ 127              		.loc 1 40 11 is_stmt 0
+ 128 00c0 97070000 		lla	a5,.LANCHOR0
+ 128      93870700 
+ 129              	.LVL11:
+ 130 00c8 03B78700 		ld	a4,8(a5)
+ 131              		.loc 1 40 16
+ 132 00cc 2338A700 		sd	a0,16(a4)
+  41:src/sleepList.cpp ****     tail = tmp;
+ 133              		.loc 1 41 5 is_stmt 1
+ 134              		.loc 1 41 10 is_stmt 0
+ 135 00d0 23B4A700 		sd	a0,8(a5)
+  42:src/sleepList.cpp ****     //novo
+  43:src/sleepList.cpp ****     tail->next = nullptr;
+ 136              		.loc 1 43 5 is_stmt 1
+ 137              		.loc 1 43 16 is_stmt 0
+ 138 00d4 23380500 		sd	zero,16(a0)
+GAS LISTING /tmp/cceJst07.s 			page 5
+
+
+ 139              	.LVL12:
+ 140              	.L1:
+  44:src/sleepList.cpp **** }
+ 141              		.loc 1 44 1
+ 142 00d8 83308101 		ld	ra,24(sp)
+ 143              		.cfi_restore 1
+ 144 00dc 03340101 		ld	s0,16(sp)
+ 145              		.cfi_restore 8
+ 146              		.cfi_def_cfa 2, 32
+ 147 00e0 83348100 		ld	s1,8(sp)
+ 148              		.cfi_restore 9
+ 149              	.LVL13:
+ 150 00e4 03390100 		ld	s2,0(sp)
+ 151              		.cfi_restore 18
+ 152              	.LVL14:
+ 153 00e8 13010102 		addi	sp,sp,32
+ 154              		.cfi_def_cfa_offset 0
+ 155 00ec 67800000 		jr	ra
+ 156              		.cfi_endproc
+ 157              	.LFE22:
+ 159              		.align	2
+ 160              		.globl	_ZN9sleepList5clockEv
+ 162              	_ZN9sleepList5clockEv:
+ 163              	.LFB23:
+  45:src/sleepList.cpp **** 
+  46:src/sleepList.cpp **** void sleepList::clock()
+  47:src/sleepList.cpp **** {
+ 164              		.loc 1 47 1 is_stmt 1
+ 165              		.cfi_startproc
+ 166 00f0 130101FF 		addi	sp,sp,-16
+ 167              		.cfi_def_cfa_offset 16
+ 168 00f4 23348100 		sd	s0,8(sp)
+ 169              		.cfi_offset 8, -8
+ 170 00f8 13040101 		addi	s0,sp,16
+ 171              		.cfi_def_cfa 8, 0
+  48:src/sleepList.cpp ****     if(head)
+ 172              		.loc 1 48 5
+ 173              		.loc 1 48 12 is_stmt 0
+ 174 00fc 97070000 		ld	a5,.LANCHOR0
+ 174      83B70700 
+ 175              		.loc 1 48 5
+ 176 0104 63880700 		beqz	a5,.L12
+  49:src/sleepList.cpp ****     {
+  50:src/sleepList.cpp ****         head->time--;
+ 177              		.loc 1 50 9 is_stmt 1
+ 178              		.loc 1 50 15 is_stmt 0
+ 179 0108 03B78700 		ld	a4,8(a5)
+ 180              		.loc 1 50 19
+ 181 010c 1307F7FF 		addi	a4,a4,-1
+ 182 0110 23B4E700 		sd	a4,8(a5)
+ 183              	.L12:
+  51:src/sleepList.cpp ****     }
+  52:src/sleepList.cpp **** }
+ 184              		.loc 1 52 1
+ 185 0114 03348100 		ld	s0,8(sp)
+ 186              		.cfi_restore 8
+ 187              		.cfi_def_cfa 2, 16
+GAS LISTING /tmp/cceJst07.s 			page 6
+
+
+ 188 0118 13010101 		addi	sp,sp,16
+ 189              		.cfi_def_cfa_offset 0
+ 190 011c 67800000 		jr	ra
+ 191              		.cfi_endproc
+ 192              	.LFE23:
+ 194              		.align	2
+ 195              		.globl	_ZN9sleepList11removeFirstEv
+ 197              	_ZN9sleepList11removeFirstEv:
+ 198              	.LFB25:
+  53:src/sleepList.cpp **** 
+  54:src/sleepList.cpp **** void sleepList::cleanFinished()
+  55:src/sleepList.cpp **** {
+  56:src/sleepList.cpp ****     while(true)
+  57:src/sleepList.cpp ****     {
+  58:src/sleepList.cpp ****         if(head == nullptr || head->time != 0)
+  59:src/sleepList.cpp ****         {
+  60:src/sleepList.cpp ****             break;
+  61:src/sleepList.cpp ****         }
+  62:src/sleepList.cpp ****         TCB* tmp = removeFirst();
+  63:src/sleepList.cpp ****         tmp->setStatus(0);
+  64:src/sleepList.cpp ****         Scheduler::put(tmp);
+  65:src/sleepList.cpp ****     }
+  66:src/sleepList.cpp **** }
+  67:src/sleepList.cpp **** 
+  68:src/sleepList.cpp **** TCB * sleepList::removeFirst()
+  69:src/sleepList.cpp **** {
+ 199              		.loc 1 69 1 is_stmt 1
+ 200              		.cfi_startproc
+ 201 0120 130101FE 		addi	sp,sp,-32
+ 202              		.cfi_def_cfa_offset 32
+ 203 0124 233C1100 		sd	ra,24(sp)
+ 204 0128 23388100 		sd	s0,16(sp)
+ 205 012c 23349100 		sd	s1,8(sp)
+ 206              		.cfi_offset 1, -8
+ 207              		.cfi_offset 8, -16
+ 208              		.cfi_offset 9, -24
+ 209 0130 13040102 		addi	s0,sp,32
+ 210              		.cfi_def_cfa 8, 0
+  70:src/sleepList.cpp ****     if (!head) { return nullptr; }
+ 211              		.loc 1 70 5
+ 212              		.loc 1 70 9 is_stmt 0
+ 213 0134 17050000 		ld	a0,.LANCHOR0
+ 213      03350500 
+ 214              		.loc 1 70 5
+ 215 013c 63020504 		beqz	a0,.L18
+  71:src/sleepList.cpp **** 
+  72:src/sleepList.cpp ****     Elem *elem = head;
+ 216              		.loc 1 72 5 is_stmt 1
+ 217              	.LVL15:
+  73:src/sleepList.cpp ****     head = head->next;
+ 218              		.loc 1 73 5
+ 219              		.loc 1 73 18 is_stmt 0
+ 220 0140 83370501 		ld	a5,16(a0)
+ 221              		.loc 1 73 10
+ 222 0144 17070000 		sd	a5,.LANCHOR0,a4
+ 222      2330F700 
+  74:src/sleepList.cpp ****     if (!head) { tail = nullptr; }
+GAS LISTING /tmp/cceJst07.s 			page 7
+
+
+ 223              		.loc 1 74 5 is_stmt 1
+ 224 014c 63840702 		beqz	a5,.L20
+ 225              	.L17:
+  75:src/sleepList.cpp **** 
+  76:src/sleepList.cpp ****     TCB *ret = elem->data;
+ 226              		.loc 1 76 5
+ 227              		.loc 1 76 10 is_stmt 0
+ 228 0150 83340500 		ld	s1,0(a0)
+ 229              	.LVL16:
+  77:src/sleepList.cpp ****     delete elem;
+ 230              		.loc 1 77 5 is_stmt 1
+ 231              		.loc 1 77 12 is_stmt 0
+ 232 0154 97000000 		call	_ZdlPv@plt
+ 232      E7800000 
+ 233              	.LVL17:
+  78:src/sleepList.cpp ****     return ret;
+ 234              		.loc 1 78 5 is_stmt 1
+ 235              	.L15:
+  79:src/sleepList.cpp **** }
+ 236              		.loc 1 79 1 is_stmt 0
+ 237 015c 13850400 		mv	a0,s1
+ 238 0160 83308101 		ld	ra,24(sp)
+ 239              		.cfi_remember_state
+ 240              		.cfi_restore 1
+ 241 0164 03340101 		ld	s0,16(sp)
+ 242              		.cfi_restore 8
+ 243              		.cfi_def_cfa 2, 32
+ 244 0168 83348100 		ld	s1,8(sp)
+ 245              		.cfi_restore 9
+ 246 016c 13010102 		addi	sp,sp,32
+ 247              		.cfi_def_cfa_offset 0
+ 248 0170 67800000 		jr	ra
+ 249              	.LVL18:
+ 250              	.L20:
+ 251              		.cfi_restore_state
+  74:src/sleepList.cpp **** 
+ 252              		.loc 1 74 18 is_stmt 1 discriminator 1
+  74:src/sleepList.cpp **** 
+ 253              		.loc 1 74 23 is_stmt 0 discriminator 1
+ 254 0174 97070000 		sd	zero,.LANCHOR0+8,a5
+ 254      23B00700 
+ 255 017c 6FF05FFD 		j	.L17
+ 256              	.LVL19:
+ 257              	.L18:
+  70:src/sleepList.cpp **** 
+ 258              		.loc 1 70 25
+ 259 0180 93040500 		mv	s1,a0
+ 260 0184 6FF09FFD 		j	.L15
+ 261              		.cfi_endproc
+ 262              	.LFE25:
+ 264              		.align	2
+ 265              		.globl	_ZN9sleepList13cleanFinishedEv
+ 267              	_ZN9sleepList13cleanFinishedEv:
+ 268              	.LFB24:
+  55:src/sleepList.cpp ****     while(true)
+ 269              		.loc 1 55 1 is_stmt 1
+ 270              		.cfi_startproc
+GAS LISTING /tmp/cceJst07.s 			page 8
+
+
+  56:src/sleepList.cpp ****     {
+ 271              		.loc 1 56 5
+ 272              	.LBB10:
+  58:src/sleepList.cpp ****         {
+ 273              		.loc 1 58 9
+  58:src/sleepList.cpp ****         {
+ 274              		.loc 1 58 17 is_stmt 0
+ 275 0188 97070000 		ld	a5,.LANCHOR0
+ 275      83B70700 
+  58:src/sleepList.cpp ****         {
+ 276              		.loc 1 58 9
+ 277 0190 638C0704 		beqz	a5,.L25
+  58:src/sleepList.cpp ****         {
+ 278              		.loc 1 58 37
+ 279 0194 83B78700 		ld	a5,8(a5)
+  58:src/sleepList.cpp ****         {
+ 280              		.loc 1 58 28
+ 281 0198 63980704 		bnez	a5,.L25
+ 282              	.LBE10:
+  55:src/sleepList.cpp ****     while(true)
+ 283              		.loc 1 55 1
+ 284 019c 130101FF 		addi	sp,sp,-16
+ 285              		.cfi_def_cfa_offset 16
+ 286 01a0 23341100 		sd	ra,8(sp)
+ 287 01a4 23308100 		sd	s0,0(sp)
+ 288              		.cfi_offset 1, -8
+ 289              		.cfi_offset 8, -16
+ 290 01a8 13040101 		addi	s0,sp,16
+ 291              		.cfi_def_cfa 8, 0
+ 292 01ac 6F00C000 		j	.L27
+ 293              	.LVL20:
+ 294              	.L30:
+ 295              	.LBB13:
+  58:src/sleepList.cpp ****         {
+ 296              		.loc 1 58 37 discriminator 1
+ 297 01b0 83B78700 		ld	a5,8(a5)
+  58:src/sleepList.cpp ****         {
+ 298              		.loc 1 58 28 discriminator 1
+ 299 01b4 63920702 		bnez	a5,.L21
+ 300              	.L27:
+  62:src/sleepList.cpp ****         tmp->setStatus(0);
+ 301              		.loc 1 62 9 is_stmt 1
+  62:src/sleepList.cpp ****         tmp->setStatus(0);
+ 302              		.loc 1 62 31 is_stmt 0
+ 303 01b8 97000000 		call	_ZN9sleepList11removeFirstEv
+ 303      E7800000 
+ 304              	.LVL21:
+  63:src/sleepList.cpp ****         Scheduler::put(tmp);
+ 305              		.loc 1 63 9 is_stmt 1
+ 306              	.LBB11:
+ 307              	.LBB12:
+ 308              		.file 3 "src/../h/tcb.hpp"
+   1:src/../h/tcb.hpp **** #ifndef OS1_VEZBE07_RISCV_CONTEXT_SWITCH_2_INTERRUPT_TCB_HPP
+   2:src/../h/tcb.hpp **** #define OS1_VEZBE07_RISCV_CONTEXT_SWITCH_2_INTERRUPT_TCB_HPP
+   3:src/../h/tcb.hpp **** 
+   4:src/../h/tcb.hpp **** #include "../lib/hw.h"
+   5:src/../h/tcb.hpp **** #include "scheduler.hpp"
+GAS LISTING /tmp/cceJst07.s 			page 9
+
+
+   6:src/../h/tcb.hpp **** #include "syscall_c.h"
+   7:src/../h/tcb.hpp **** class TCB
+   8:src/../h/tcb.hpp **** {
+   9:src/../h/tcb.hpp **** public:
+  10:src/../h/tcb.hpp **** 
+  11:src/../h/tcb.hpp ****     void setStatus(int s) { status = s; }
+ 309              		.loc 3 11 29
+ 310              		.loc 3 11 36 is_stmt 0
+ 311 01c0 232C0502 		sw	zero,56(a0)
+ 312              	.LVL22:
+ 313              	.LBE12:
+ 314              	.LBE11:
+  64:src/sleepList.cpp ****     }
+ 315              		.loc 1 64 9 is_stmt 1
+  64:src/sleepList.cpp ****     }
+ 316              		.loc 1 64 23 is_stmt 0
+ 317 01c4 97000000 		call	_ZN9Scheduler3putEP3TCB@plt
+ 317      E7800000 
+ 318              	.LVL23:
+ 319              	.LBE13:
+  56:src/sleepList.cpp ****     {
+ 320              		.loc 1 56 5 is_stmt 1
+  56:src/sleepList.cpp ****     {
+ 321              		.loc 1 56 5
+ 322              	.LBB14:
+  58:src/sleepList.cpp ****         {
+ 323              		.loc 1 58 9
+  58:src/sleepList.cpp ****         {
+ 324              		.loc 1 58 17 is_stmt 0
+ 325 01cc 97070000 		ld	a5,.LANCHOR0
+ 325      83B70700 
+  58:src/sleepList.cpp ****         {
+ 326              		.loc 1 58 9
+ 327 01d4 E39E07FC 		bnez	a5,.L30
+ 328              	.L21:
+ 329              	.LBE14:
+  66:src/sleepList.cpp **** 
+ 330              		.loc 1 66 1
+ 331 01d8 83308100 		ld	ra,8(sp)
+ 332              		.cfi_restore 1
+ 333 01dc 03340100 		ld	s0,0(sp)
+ 334              		.cfi_restore 8
+ 335              		.cfi_def_cfa 2, 16
+ 336 01e0 13010101 		addi	sp,sp,16
+ 337              		.cfi_def_cfa_offset 0
+ 338 01e4 67800000 		jr	ra
+ 339              	.L25:
+ 340 01e8 67800000 		ret
+ 341              		.cfi_endproc
+ 342              	.LFE24:
+ 344              		.align	2
+ 345              		.globl	_ZN9sleepList13peekFirstTimeEv
+ 347              	_ZN9sleepList13peekFirstTimeEv:
+ 348              	.LFB26:
+  80:src/sleepList.cpp **** 
+  81:src/sleepList.cpp **** time_t sleepList::peekFirstTime()
+  82:src/sleepList.cpp **** {
+GAS LISTING /tmp/cceJst07.s 			page 10
+
+
+ 349              		.loc 1 82 1 is_stmt 1
+ 350              		.cfi_startproc
+ 351 01ec 130101FF 		addi	sp,sp,-16
+ 352              		.cfi_def_cfa_offset 16
+ 353 01f0 23348100 		sd	s0,8(sp)
+ 354              		.cfi_offset 8, -8
+ 355 01f4 13040101 		addi	s0,sp,16
+ 356              		.cfi_def_cfa 8, 0
+  83:src/sleepList.cpp ****     if (!head) { return 0; }
+ 357              		.loc 1 83 5
+ 358              		.loc 1 83 9 is_stmt 0
+ 359 01f8 97070000 		ld	a5,.LANCHOR0
+ 359      83B70700 
+ 360              		.loc 1 83 5
+ 361 0200 638A0700 		beqz	a5,.L33
+  84:src/sleepList.cpp ****     return head->time;
+ 362              		.loc 1 84 5 is_stmt 1
+ 363              		.loc 1 84 18 is_stmt 0
+ 364 0204 03B58700 		ld	a0,8(a5)
+ 365              	.L31:
+  85:src/sleepList.cpp **** }
+ 366              		.loc 1 85 1
+ 367 0208 03348100 		ld	s0,8(sp)
+ 368              		.cfi_remember_state
+ 369              		.cfi_restore 8
+ 370              		.cfi_def_cfa 2, 16
+ 371 020c 13010101 		addi	sp,sp,16
+ 372              		.cfi_def_cfa_offset 0
+ 373 0210 67800000 		jr	ra
+ 374              	.L33:
+ 375              		.cfi_restore_state
+  83:src/sleepList.cpp ****     if (!head) { return 0; }
+ 376              		.loc 1 83 25
+ 377 0214 13050000 		li	a0,0
+ 378 0218 6FF01FFF 		j	.L31
+ 379              		.cfi_endproc
+ 380              	.LFE26:
+ 382              		.align	2
+ 383              		.globl	_ZN9sleepList10removeLastEv
+ 385              	_ZN9sleepList10removeLastEv:
+ 386              	.LFB27:
+  86:src/sleepList.cpp **** 
+  87:src/sleepList.cpp **** TCB * sleepList::removeLast()
+  88:src/sleepList.cpp **** {
+ 387              		.loc 1 88 1 is_stmt 1
+ 388              		.cfi_startproc
+ 389 021c 130101FE 		addi	sp,sp,-32
+ 390              		.cfi_def_cfa_offset 32
+ 391 0220 233C1100 		sd	ra,24(sp)
+ 392 0224 23388100 		sd	s0,16(sp)
+ 393 0228 23349100 		sd	s1,8(sp)
+ 394              		.cfi_offset 1, -8
+ 395              		.cfi_offset 8, -16
+ 396              		.cfi_offset 9, -24
+ 397 022c 13040102 		addi	s0,sp,32
+ 398              		.cfi_def_cfa 8, 0
+  89:src/sleepList.cpp ****     if (!head) { return 0; }
+GAS LISTING /tmp/cceJst07.s 			page 11
+
+
+ 399              		.loc 1 89 5
+ 400              		.loc 1 89 9 is_stmt 0
+ 401 0230 97040000 		ld	s1,.LANCHOR0
+ 401      83B40400 
+ 402              		.loc 1 89 5
+ 403 0238 63860404 		beqz	s1,.L35
+  90:src/sleepList.cpp **** 
+  91:src/sleepList.cpp ****     Elem *prev = 0;
+ 404              		.loc 1 91 11
+ 405 023c 13070000 		li	a4,0
+ 406              	.L38:
+ 407              	.LVL24:
+ 408              	.LBB15:
+  92:src/sleepList.cpp ****     for (Elem *curr = head; curr && curr != tail; curr = curr->next)
+ 409              		.loc 1 92 34 is_stmt 1 discriminator 4
+ 410 0240 638E0400 		beqz	s1,.L37
+ 411              		.loc 1 92 42 is_stmt 0 discriminator 2
+ 412 0244 97070000 		ld	a5,.LANCHOR0+8
+ 412      83B70700 
+ 413              		.loc 1 92 34 discriminator 2
+ 414 024c 63889700 		beq	a5,s1,.L37
+  93:src/sleepList.cpp ****     {
+  94:src/sleepList.cpp ****         prev = curr;
+ 415              		.loc 1 94 9 is_stmt 1 discriminator 3
+ 416              	.LVL25:
+  92:src/sleepList.cpp ****     for (Elem *curr = head; curr && curr != tail; curr = curr->next)
+ 417              		.loc 1 92 5 discriminator 3
+ 418              		.loc 1 94 14 is_stmt 0 discriminator 3
+ 419 0250 13870400 		mv	a4,s1
+  92:src/sleepList.cpp ****     for (Elem *curr = head; curr && curr != tail; curr = curr->next)
+ 420              		.loc 1 92 56 discriminator 3
+ 421 0254 83B40401 		ld	s1,16(s1)
+ 422              	.LVL26:
+  92:src/sleepList.cpp ****     for (Elem *curr = head; curr && curr != tail; curr = curr->next)
+ 423              		.loc 1 92 5 discriminator 3
+ 424 0258 6FF09FFE 		j	.L38
+ 425              	.L37:
+ 426              	.LBE15:
+  95:src/sleepList.cpp ****     }
+  96:src/sleepList.cpp **** 
+  97:src/sleepList.cpp ****     Elem *elem = tail;
+ 427              		.loc 1 97 5 is_stmt 1
+ 428              		.loc 1 97 11 is_stmt 0
+ 429 025c 17050000 		ld	a0,.LANCHOR0+8
+ 429      03350500 
+ 430              	.LVL27:
+  98:src/sleepList.cpp ****     if (prev) { prev->next = 0; }
+ 431              		.loc 1 98 5 is_stmt 1
+ 432 0264 630C0702 		beqz	a4,.L39
+ 433              		.loc 1 98 17 discriminator 1
+ 434              		.loc 1 98 28 is_stmt 0 discriminator 1
+ 435 0268 23380700 		sd	zero,16(a4)
+ 436              	.L40:
+  99:src/sleepList.cpp ****     else { head = 0; }
+ 100:src/sleepList.cpp ****     tail = prev;
+ 437              		.loc 1 100 5 is_stmt 1
+ 438              		.loc 1 100 10 is_stmt 0
+GAS LISTING /tmp/cceJst07.s 			page 12
+
+
+ 439 026c 97070000 		sd	a4,.LANCHOR0+8,a5
+ 439      23B0E700 
+ 101:src/sleepList.cpp **** 
+ 102:src/sleepList.cpp ****     TCB *ret = elem->data;
+ 440              		.loc 1 102 5 is_stmt 1
+ 441              		.loc 1 102 10 is_stmt 0
+ 442 0274 83340500 		ld	s1,0(a0)
+ 443              	.LVL28:
+ 103:src/sleepList.cpp ****     delete elem;
+ 444              		.loc 1 103 5 is_stmt 1
+ 445              		.loc 1 103 16 is_stmt 0
+ 446 0278 63060500 		beqz	a0,.L35
+ 447              		.loc 1 103 12 discriminator 1
+ 448 027c 97000000 		call	_ZdlPv@plt
+ 448      E7800000 
+ 449              	.LVL29:
+ 450              	.L35:
+ 104:src/sleepList.cpp ****     return ret;
+ 105:src/sleepList.cpp **** }
+ 451              		.loc 1 105 1
+ 452 0284 13850400 		mv	a0,s1
+ 453 0288 83308101 		ld	ra,24(sp)
+ 454              		.cfi_remember_state
+ 455              		.cfi_restore 1
+ 456 028c 03340101 		ld	s0,16(sp)
+ 457              		.cfi_restore 8
+ 458              		.cfi_def_cfa 2, 32
+ 459 0290 83348100 		ld	s1,8(sp)
+ 460              		.cfi_restore 9
+ 461 0294 13010102 		addi	sp,sp,32
+ 462              		.cfi_def_cfa_offset 0
+ 463 0298 67800000 		jr	ra
+ 464              	.LVL30:
+ 465              	.L39:
+ 466              		.cfi_restore_state
+  99:src/sleepList.cpp ****     tail = prev;
+ 467              		.loc 1 99 12 is_stmt 1
+  99:src/sleepList.cpp ****     tail = prev;
+ 468              		.loc 1 99 17 is_stmt 0
+ 469 029c 97070000 		sd	zero,.LANCHOR0,a5
+ 469      23B00700 
+ 470 02a4 6FF09FFC 		j	.L40
+ 471              		.cfi_endproc
+ 472              	.LFE27:
+ 474              		.align	2
+ 475              		.globl	_ZN9sleepList12peekLastTimeEv
+ 477              	_ZN9sleepList12peekLastTimeEv:
+ 478              	.LFB28:
+ 106:src/sleepList.cpp **** 
+ 107:src/sleepList.cpp **** time_t sleepList::peekLastTime()
+ 108:src/sleepList.cpp **** {
+ 479              		.loc 1 108 1 is_stmt 1
+ 480              		.cfi_startproc
+ 481 02a8 130101FF 		addi	sp,sp,-16
+ 482              		.cfi_def_cfa_offset 16
+ 483 02ac 23348100 		sd	s0,8(sp)
+ 484              		.cfi_offset 8, -8
+GAS LISTING /tmp/cceJst07.s 			page 13
+
+
+ 485 02b0 13040101 		addi	s0,sp,16
+ 486              		.cfi_def_cfa 8, 0
+ 109:src/sleepList.cpp ****     if (!tail) { return 0; }
+ 487              		.loc 1 109 5
+ 488              		.loc 1 109 9 is_stmt 0
+ 489 02b4 97070000 		ld	a5,.LANCHOR0+8
+ 489      83B70700 
+ 490              		.loc 1 109 5
+ 491 02bc 638A0700 		beqz	a5,.L44
+ 110:src/sleepList.cpp ****     return tail->time;
+ 492              		.loc 1 110 5 is_stmt 1
+ 493              		.loc 1 110 18 is_stmt 0
+ 494 02c0 03B58700 		ld	a0,8(a5)
+ 495              	.L42:
+ 111:src/sleepList.cpp **** }...
+ 496              		.loc 1 111 1
+ 497 02c4 03348100 		ld	s0,8(sp)
+ 498              		.cfi_remember_state
+ 499              		.cfi_restore 8
+ 500              		.cfi_def_cfa 2, 16
+ 501 02c8 13010101 		addi	sp,sp,16
+ 502              		.cfi_def_cfa_offset 0
+ 503 02cc 67800000 		jr	ra
+ 504              	.L44:
+ 505              		.cfi_restore_state
+ 109:src/sleepList.cpp ****     if (!tail) { return 0; }
+ 506              		.loc 1 109 25
+ 507 02d0 13050000 		li	a0,0
+ 508 02d4 6FF01FFF 		j	.L42
+ 509              		.cfi_endproc
+ 510              	.LFE28:
+ 512              		.globl	_ZN9sleepList4tailE
+ 513              		.globl	_ZN9sleepList4headE
+ 514              		.bss
+ 515              		.align	3
+ 516              		.set	.LANCHOR0,. + 0
+ 519              	_ZN9sleepList4headE:
+ 520 0000 00000000 		.zero	8
+ 520      00000000 
+ 523              	_ZN9sleepList4tailE:
+ 524 0008 00000000 		.zero	8
+ 524      00000000 
+ 525              		.text
+ 526              	.Letext0:
+ 527              		.file 4 "src/../h/../lib/hw.h"
+ 528              		.file 5 "src/../h/scheduler.hpp"
+ 529              		.file 6 "src/../h/syscall_c.h"
+GAS LISTING /tmp/cceJst07.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 sleepList.cpp
+     /tmp/cceJst07.s:9      .text:0000000000000000 _ZN9sleepList3addEP3TCBm
+     /tmp/cceJst07.s:13     .text:0000000000000000 .L0 
+     /tmp/cceJst07.s:15     .text:0000000000000000 .L0 
+     /tmp/cceJst07.s:16     .text:0000000000000004 .L0 
+     /tmp/cceJst07.s:21     .text:0000000000000014 .L0 
+     /tmp/cceJst07.s:22     .text:0000000000000014 .L0 
+     /tmp/cceJst07.s:23     .text:0000000000000014 .L0 
+     /tmp/cceJst07.s:24     .text:0000000000000014 .L0 
+     /tmp/cceJst07.s:26     .text:0000000000000018 .L0 
+     /tmp/cceJst07.s:30     .text:0000000000000020 .L0 
+     /tmp/cceJst07.s:31     .text:0000000000000020 .L0 
+     /tmp/cceJst07.s:39     .text:000000000000002c .L0 
+     /tmp/cceJst07.s:46     .text:0000000000000038 .L0 
+     /tmp/cceJst07.s:47     .text:0000000000000038 .L0 
+     /tmp/cceJst07.s:49     .text:0000000000000040 .L0 
+     /tmp/cceJst07.s:51     .text:0000000000000044 .L0 
+     /tmp/cceJst07.s:53     .text:0000000000000048 .L0 
+     /tmp/cceJst07.s:57     .text:000000000000004c .L0 
+     /tmp/cceJst07.s:58     .text:000000000000004c .L0 
+     /tmp/cceJst07.s:60     .text:0000000000000050 .L0 
+     /tmp/cceJst07.s:61     .text:0000000000000050 .L0 
+     /tmp/cceJst07.s:63     .text:0000000000000054 .L0 
+     /tmp/cceJst07.s:65     .text:0000000000000058 .L0 
+     /tmp/cceJst07.s:67     .text:000000000000005c .L0 
+     /tmp/cceJst07.s:68     .text:000000000000005c .L0 
+     /tmp/cceJst07.s:72     .text:0000000000000064 .L0 
+     /tmp/cceJst07.s:73     .text:0000000000000064 .L0 
+     /tmp/cceJst07.s:75     .text:0000000000000068 .L0 
+     /tmp/cceJst07.s:78     .text:000000000000006c .L0 
+     /tmp/cceJst07.s:82     .text:0000000000000070 .L0 
+     /tmp/cceJst07.s:83     .text:0000000000000070 .L0 
+     /tmp/cceJst07.s:86     .text:000000000000007c .L0 
+     /tmp/cceJst07.s:87     .text:000000000000007c .L0 
+     /tmp/cceJst07.s:89     .text:0000000000000080 .L0 
+     /tmp/cceJst07.s:90     .text:0000000000000080 .L0 
+     /tmp/cceJst07.s:94     .text:0000000000000084 .L0 
+     /tmp/cceJst07.s:96     .text:0000000000000088 .L0 
+     /tmp/cceJst07.s:97     .text:0000000000000088 .L0 
+     /tmp/cceJst07.s:99     .text:000000000000008c .L0 
+     /tmp/cceJst07.s:100    .text:000000000000008c .L0 
+     /tmp/cceJst07.s:102    .text:0000000000000090 .L0 
+     /tmp/cceJst07.s:103    .text:0000000000000090 .L0 
+     /tmp/cceJst07.s:105    .text:0000000000000094 .L0 
+     /tmp/cceJst07.s:111    .text:00000000000000a4 .L0 
+     /tmp/cceJst07.s:112    .text:00000000000000a4 .L0 
+     /tmp/cceJst07.s:114    .text:00000000000000a8 .L0 
+     /tmp/cceJst07.s:115    .text:00000000000000a8 .L0 
+     /tmp/cceJst07.s:120    .text:00000000000000b4 .L0 
+     /tmp/cceJst07.s:121    .text:00000000000000b4 .L0 
+     /tmp/cceJst07.s:123    .text:00000000000000bc .L0 
+     /tmp/cceJst07.s:127    .text:00000000000000c0 .L0 
+     /tmp/cceJst07.s:128    .text:00000000000000c0 .L0 
+     /tmp/cceJst07.s:132    .text:00000000000000cc .L0 
+     /tmp/cceJst07.s:134    .text:00000000000000d0 .L0 
+     /tmp/cceJst07.s:135    .text:00000000000000d0 .L0 
+GAS LISTING /tmp/cceJst07.s 			page 15
+
+
+     /tmp/cceJst07.s:137    .text:00000000000000d4 .L0 
+     /tmp/cceJst07.s:138    .text:00000000000000d4 .L0 
+     /tmp/cceJst07.s:142    .text:00000000000000d8 .L0 
+     /tmp/cceJst07.s:143    .text:00000000000000dc .L0 
+     /tmp/cceJst07.s:145    .text:00000000000000e0 .L0 
+     /tmp/cceJst07.s:146    .text:00000000000000e0 .L0 
+     /tmp/cceJst07.s:148    .text:00000000000000e4 .L0 
+     /tmp/cceJst07.s:151    .text:00000000000000e8 .L0 
+     /tmp/cceJst07.s:154    .text:00000000000000ec .L0 
+     /tmp/cceJst07.s:156    .text:00000000000000f0 .L0 
+     /tmp/cceJst07.s:162    .text:00000000000000f0 _ZN9sleepList5clockEv
+     /tmp/cceJst07.s:165    .text:00000000000000f0 .L0 
+     /tmp/cceJst07.s:166    .text:00000000000000f0 .L0 
+     /tmp/cceJst07.s:167    .text:00000000000000f4 .L0 
+     /tmp/cceJst07.s:169    .text:00000000000000f8 .L0 
+     /tmp/cceJst07.s:171    .text:00000000000000fc .L0 
+     /tmp/cceJst07.s:173    .text:00000000000000fc .L0 
+     /tmp/cceJst07.s:174    .text:00000000000000fc .L0 
+     /tmp/cceJst07.s:176    .text:0000000000000104 .L0 
+     /tmp/cceJst07.s:178    .text:0000000000000108 .L0 
+     /tmp/cceJst07.s:179    .text:0000000000000108 .L0 
+     /tmp/cceJst07.s:181    .text:000000000000010c .L0 
+     /tmp/cceJst07.s:185    .text:0000000000000114 .L0 
+     /tmp/cceJst07.s:186    .text:0000000000000118 .L0 
+     /tmp/cceJst07.s:187    .text:0000000000000118 .L0 
+     /tmp/cceJst07.s:189    .text:000000000000011c .L0 
+     /tmp/cceJst07.s:191    .text:0000000000000120 .L0 
+     /tmp/cceJst07.s:197    .text:0000000000000120 _ZN9sleepList11removeFirstEv
+     /tmp/cceJst07.s:200    .text:0000000000000120 .L0 
+     /tmp/cceJst07.s:201    .text:0000000000000120 .L0 
+     /tmp/cceJst07.s:202    .text:0000000000000124 .L0 
+     /tmp/cceJst07.s:206    .text:0000000000000130 .L0 
+     /tmp/cceJst07.s:207    .text:0000000000000130 .L0 
+     /tmp/cceJst07.s:208    .text:0000000000000130 .L0 
+     /tmp/cceJst07.s:210    .text:0000000000000134 .L0 
+     /tmp/cceJst07.s:212    .text:0000000000000134 .L0 
+     /tmp/cceJst07.s:213    .text:0000000000000134 .L0 
+     /tmp/cceJst07.s:215    .text:000000000000013c .L0 
+     /tmp/cceJst07.s:218    .text:0000000000000140 .L0 
+     /tmp/cceJst07.s:219    .text:0000000000000140 .L0 
+     /tmp/cceJst07.s:220    .text:0000000000000140 .L0 
+     /tmp/cceJst07.s:222    .text:0000000000000144 .L0 
+     /tmp/cceJst07.s:224    .text:000000000000014c .L0 
+     /tmp/cceJst07.s:227    .text:0000000000000150 .L0 
+     /tmp/cceJst07.s:228    .text:0000000000000150 .L0 
+     /tmp/cceJst07.s:231    .text:0000000000000154 .L0 
+     /tmp/cceJst07.s:232    .text:0000000000000154 .L0 
+     /tmp/cceJst07.s:236    .text:000000000000015c .L0 
+     /tmp/cceJst07.s:237    .text:000000000000015c .L0 
+     /tmp/cceJst07.s:239    .text:0000000000000164 .L0 
+     /tmp/cceJst07.s:240    .text:0000000000000164 .L0 
+     /tmp/cceJst07.s:242    .text:0000000000000168 .L0 
+     /tmp/cceJst07.s:243    .text:0000000000000168 .L0 
+     /tmp/cceJst07.s:245    .text:000000000000016c .L0 
+     /tmp/cceJst07.s:247    .text:0000000000000170 .L0 
+     /tmp/cceJst07.s:251    .text:0000000000000174 .L0 
+     /tmp/cceJst07.s:253    .text:0000000000000174 .L0 
+GAS LISTING /tmp/cceJst07.s 			page 16
+
+
+     /tmp/cceJst07.s:254    .text:0000000000000174 .L0 
+     /tmp/cceJst07.s:259    .text:0000000000000180 .L0 
+     /tmp/cceJst07.s:261    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:267    .text:0000000000000188 _ZN9sleepList13cleanFinishedEv
+     /tmp/cceJst07.s:270    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:271    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:273    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:274    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:275    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:277    .text:0000000000000190 .L0 
+     /tmp/cceJst07.s:279    .text:0000000000000194 .L0 
+     /tmp/cceJst07.s:281    .text:0000000000000198 .L0 
+     /tmp/cceJst07.s:284    .text:000000000000019c .L0 
+     /tmp/cceJst07.s:285    .text:00000000000001a0 .L0 
+     /tmp/cceJst07.s:288    .text:00000000000001a8 .L0 
+     /tmp/cceJst07.s:289    .text:00000000000001a8 .L0 
+     /tmp/cceJst07.s:291    .text:00000000000001ac .L0 
+     /tmp/cceJst07.s:297    .text:00000000000001b0 .L0 
+     /tmp/cceJst07.s:299    .text:00000000000001b4 .L0 
+     /tmp/cceJst07.s:302    .text:00000000000001b8 .L0 
+     /tmp/cceJst07.s:303    .text:00000000000001b8 .L0 
+     /tmp/cceJst07.s:309    .text:00000000000001c0 .L0 
+     /tmp/cceJst07.s:310    .text:00000000000001c0 .L0 
+     /tmp/cceJst07.s:311    .text:00000000000001c0 .L0 
+     /tmp/cceJst07.s:316    .text:00000000000001c4 .L0 
+     /tmp/cceJst07.s:317    .text:00000000000001c4 .L0 
+     /tmp/cceJst07.s:321    .text:00000000000001cc .L0 
+     /tmp/cceJst07.s:323    .text:00000000000001cc .L0 
+     /tmp/cceJst07.s:324    .text:00000000000001cc .L0 
+     /tmp/cceJst07.s:325    .text:00000000000001cc .L0 
+     /tmp/cceJst07.s:327    .text:00000000000001d4 .L0 
+     /tmp/cceJst07.s:331    .text:00000000000001d8 .L0 
+     /tmp/cceJst07.s:332    .text:00000000000001dc .L0 
+     /tmp/cceJst07.s:334    .text:00000000000001e0 .L0 
+     /tmp/cceJst07.s:335    .text:00000000000001e0 .L0 
+     /tmp/cceJst07.s:337    .text:00000000000001e4 .L0 
+     /tmp/cceJst07.s:341    .text:00000000000001ec .L0 
+     /tmp/cceJst07.s:347    .text:00000000000001ec _ZN9sleepList13peekFirstTimeEv
+     /tmp/cceJst07.s:350    .text:00000000000001ec .L0 
+     /tmp/cceJst07.s:351    .text:00000000000001ec .L0 
+     /tmp/cceJst07.s:352    .text:00000000000001f0 .L0 
+     /tmp/cceJst07.s:354    .text:00000000000001f4 .L0 
+     /tmp/cceJst07.s:356    .text:00000000000001f8 .L0 
+     /tmp/cceJst07.s:358    .text:00000000000001f8 .L0 
+     /tmp/cceJst07.s:359    .text:00000000000001f8 .L0 
+     /tmp/cceJst07.s:361    .text:0000000000000200 .L0 
+     /tmp/cceJst07.s:363    .text:0000000000000204 .L0 
+     /tmp/cceJst07.s:364    .text:0000000000000204 .L0 
+     /tmp/cceJst07.s:367    .text:0000000000000208 .L0 
+     /tmp/cceJst07.s:368    .text:000000000000020c .L0 
+     /tmp/cceJst07.s:369    .text:000000000000020c .L0 
+     /tmp/cceJst07.s:370    .text:000000000000020c .L0 
+     /tmp/cceJst07.s:372    .text:0000000000000210 .L0 
+     /tmp/cceJst07.s:375    .text:0000000000000214 .L0 
+     /tmp/cceJst07.s:377    .text:0000000000000214 .L0 
+     /tmp/cceJst07.s:379    .text:000000000000021c .L0 
+     /tmp/cceJst07.s:385    .text:000000000000021c _ZN9sleepList10removeLastEv
+GAS LISTING /tmp/cceJst07.s 			page 17
+
+
+     /tmp/cceJst07.s:388    .text:000000000000021c .L0 
+     /tmp/cceJst07.s:389    .text:000000000000021c .L0 
+     /tmp/cceJst07.s:390    .text:0000000000000220 .L0 
+     /tmp/cceJst07.s:394    .text:000000000000022c .L0 
+     /tmp/cceJst07.s:395    .text:000000000000022c .L0 
+     /tmp/cceJst07.s:396    .text:000000000000022c .L0 
+     /tmp/cceJst07.s:398    .text:0000000000000230 .L0 
+     /tmp/cceJst07.s:400    .text:0000000000000230 .L0 
+     /tmp/cceJst07.s:401    .text:0000000000000230 .L0 
+     /tmp/cceJst07.s:403    .text:0000000000000238 .L0 
+     /tmp/cceJst07.s:405    .text:000000000000023c .L0 
+     /tmp/cceJst07.s:410    .text:0000000000000240 .L0 
+     /tmp/cceJst07.s:412    .text:0000000000000244 .L0 
+     /tmp/cceJst07.s:414    .text:000000000000024c .L0 
+     /tmp/cceJst07.s:417    .text:0000000000000250 .L0 
+     /tmp/cceJst07.s:418    .text:0000000000000250 .L0 
+     /tmp/cceJst07.s:419    .text:0000000000000250 .L0 
+     /tmp/cceJst07.s:421    .text:0000000000000254 .L0 
+     /tmp/cceJst07.s:424    .text:0000000000000258 .L0 
+     /tmp/cceJst07.s:428    .text:000000000000025c .L0 
+     /tmp/cceJst07.s:429    .text:000000000000025c .L0 
+     /tmp/cceJst07.s:432    .text:0000000000000264 .L0 
+     /tmp/cceJst07.s:434    .text:0000000000000268 .L0 
+     /tmp/cceJst07.s:435    .text:0000000000000268 .L0 
+     /tmp/cceJst07.s:438    .text:000000000000026c .L0 
+     /tmp/cceJst07.s:439    .text:000000000000026c .L0 
+     /tmp/cceJst07.s:441    .text:0000000000000274 .L0 
+     /tmp/cceJst07.s:442    .text:0000000000000274 .L0 
+     /tmp/cceJst07.s:445    .text:0000000000000278 .L0 
+     /tmp/cceJst07.s:446    .text:0000000000000278 .L0 
+     /tmp/cceJst07.s:448    .text:000000000000027c .L0 
+     /tmp/cceJst07.s:452    .text:0000000000000284 .L0 
+     /tmp/cceJst07.s:454    .text:000000000000028c .L0 
+     /tmp/cceJst07.s:455    .text:000000000000028c .L0 
+     /tmp/cceJst07.s:457    .text:0000000000000290 .L0 
+     /tmp/cceJst07.s:458    .text:0000000000000290 .L0 
+     /tmp/cceJst07.s:460    .text:0000000000000294 .L0 
+     /tmp/cceJst07.s:462    .text:0000000000000298 .L0 
+     /tmp/cceJst07.s:466    .text:000000000000029c .L0 
+     /tmp/cceJst07.s:468    .text:000000000000029c .L0 
+     /tmp/cceJst07.s:469    .text:000000000000029c .L0 
+     /tmp/cceJst07.s:471    .text:00000000000002a8 .L0 
+     /tmp/cceJst07.s:477    .text:00000000000002a8 _ZN9sleepList12peekLastTimeEv
+     /tmp/cceJst07.s:480    .text:00000000000002a8 .L0 
+     /tmp/cceJst07.s:481    .text:00000000000002a8 .L0 
+     /tmp/cceJst07.s:482    .text:00000000000002ac .L0 
+     /tmp/cceJst07.s:484    .text:00000000000002b0 .L0 
+     /tmp/cceJst07.s:486    .text:00000000000002b4 .L0 
+     /tmp/cceJst07.s:488    .text:00000000000002b4 .L0 
+     /tmp/cceJst07.s:489    .text:00000000000002b4 .L0 
+     /tmp/cceJst07.s:491    .text:00000000000002bc .L0 
+     /tmp/cceJst07.s:493    .text:00000000000002c0 .L0 
+     /tmp/cceJst07.s:494    .text:00000000000002c0 .L0 
+     /tmp/cceJst07.s:497    .text:00000000000002c4 .L0 
+     /tmp/cceJst07.s:498    .text:00000000000002c8 .L0 
+     /tmp/cceJst07.s:499    .text:00000000000002c8 .L0 
+     /tmp/cceJst07.s:500    .text:00000000000002c8 .L0 
+GAS LISTING /tmp/cceJst07.s 			page 18
+
+
+     /tmp/cceJst07.s:502    .text:00000000000002cc .L0 
+     /tmp/cceJst07.s:505    .text:00000000000002d0 .L0 
+     /tmp/cceJst07.s:507    .text:00000000000002d0 .L0 
+     /tmp/cceJst07.s:509    .text:00000000000002d8 .L0 
+     /tmp/cceJst07.s:523    .bss:0000000000000008 _ZN9sleepList4tailE
+     /tmp/cceJst07.s:519    .bss:0000000000000000 _ZN9sleepList4headE
+     /tmp/cceJst07.s:516    .bss:0000000000000000 .LANCHOR0
+     /tmp/cceJst07.s:530    .text:00000000000002d8 .L0 
+     /tmp/cceJst07.s:47     .text:0000000000000038 .L0 
+     /tmp/cceJst07.s:83     .text:0000000000000070 .L0 
+     /tmp/cceJst07.s:121    .text:00000000000000b4 .L0 
+     /tmp/cceJst07.s:128    .text:00000000000000c0 .L0 
+     /tmp/cceJst07.s:174    .text:00000000000000fc .L0 
+     /tmp/cceJst07.s:213    .text:0000000000000134 .L0 
+     /tmp/cceJst07.s:222    .text:0000000000000144 .L0 
+     /tmp/cceJst07.s:254    .text:0000000000000174 .L0 
+     /tmp/cceJst07.s:275    .text:0000000000000188 .L0 
+     /tmp/cceJst07.s:325    .text:00000000000001cc .L0 
+     /tmp/cceJst07.s:359    .text:00000000000001f8 .L0 
+     /tmp/cceJst07.s:401    .text:0000000000000230 .L0 
+     /tmp/cceJst07.s:412    .text:0000000000000244 .L0 
+     /tmp/cceJst07.s:429    .text:000000000000025c .L0 
+     /tmp/cceJst07.s:439    .text:000000000000026c .L0 
+     /tmp/cceJst07.s:469    .text:000000000000029c .L0 
+     /tmp/cceJst07.s:489    .text:00000000000002b4 .L0 
+     /tmp/cceJst07.s:80     .text:0000000000000070 .L10
+     /tmp/cceJst07.s:125    .text:00000000000000c0 .L4
+     /tmp/cceJst07.s:92     .text:0000000000000084 .L11
+     /tmp/cceJst07.s:54     .text:000000000000004c .L2
+     /tmp/cceJst07.s:140    .text:00000000000000d8 .L1
+     /tmp/cceJst07.s:109    .text:00000000000000a4 .L6
+     /tmp/cceJst07.s:183    .text:0000000000000114 .L12
+     /tmp/cceJst07.s:257    .text:0000000000000180 .L18
+     /tmp/cceJst07.s:250    .text:0000000000000174 .L20
+     /tmp/cceJst07.s:225    .text:0000000000000150 .L17
+     /tmp/cceJst07.s:235    .text:000000000000015c .L15
+     /tmp/cceJst07.s:339    .text:00000000000001e8 .L25
+     /tmp/cceJst07.s:300    .text:00000000000001b8 .L27
+     /tmp/cceJst07.s:328    .text:00000000000001d8 .L21
+     /tmp/cceJst07.s:294    .text:00000000000001b0 .L30
+     /tmp/cceJst07.s:374    .text:0000000000000214 .L33
+     /tmp/cceJst07.s:365    .text:0000000000000208 .L31
+     /tmp/cceJst07.s:450    .text:0000000000000284 .L35
+     /tmp/cceJst07.s:425    .text:000000000000025c .L37
+     /tmp/cceJst07.s:406    .text:0000000000000240 .L38
+     /tmp/cceJst07.s:465    .text:000000000000029c .L39
+     /tmp/cceJst07.s:436    .text:000000000000026c .L40
+     /tmp/cceJst07.s:504    .text:00000000000002d0 .L44
+     /tmp/cceJst07.s:495    .text:00000000000002c4 .L42
+     /tmp/cceJst07.s:1432   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/cceJst07.s:2772   .debug_str:0000000000000490 .LASF84
+     /tmp/cceJst07.s:2662   .debug_str:000000000000016a .LASF85
+     /tmp/cceJst07.s:2636   .debug_str:000000000000009b .LASF86
+     /tmp/cceJst07.s:5      .text:0000000000000000 .Ltext0
+     /tmp/cceJst07.s:526    .text:00000000000002d8 .Letext0
+     /tmp/cceJst07.s:2614   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/cceJst07.s:2714   .debug_str:00000000000002fa .LASF0
+GAS LISTING /tmp/cceJst07.s 			page 19
+
+
+     /tmp/cceJst07.s:2728   .debug_str:0000000000000349 .LASF1
+     /tmp/cceJst07.s:2700   .debug_str:0000000000000292 .LASF2
+     /tmp/cceJst07.s:2676   .debug_str:00000000000001f6 .LASF4
+     /tmp/cceJst07.s:2766   .debug_str:000000000000044d .LASF3
+     /tmp/cceJst07.s:2626   .debug_str:0000000000000052 .LASF5
+     /tmp/cceJst07.s:2646   .debug_str:0000000000000108 .LASF6
+     /tmp/cceJst07.s:2734   .debug_str:0000000000000386 .LASF7
+     /tmp/cceJst07.s:2712   .debug_str:00000000000002e7 .LASF8
+     /tmp/cceJst07.s:2784   .debug_str:00000000000005a8 .LASF9
+     /tmp/cceJst07.s:2660   .debug_str:000000000000015c .LASF10
+     /tmp/cceJst07.s:2742   .debug_str:00000000000003c4 .LASF11
+     /tmp/cceJst07.s:2776   .debug_str:0000000000000560 .LASF12
+     /tmp/cceJst07.s:2628   .debug_str:0000000000000059 .LASF13
+     /tmp/cceJst07.s:2620   .debug_str:0000000000000021 .LASF14
+     /tmp/cceJst07.s:2634   .debug_str:000000000000008f .LASF15
+     /tmp/cceJst07.s:2758   .debug_str:0000000000000426 .LASF16
+     /tmp/cceJst07.s:2638   .debug_str:00000000000000be .LASF17
+     /tmp/cceJst07.s:2740   .debug_str:00000000000003ba .LASF18
+     /tmp/cceJst07.s:2656   .debug_str:0000000000000134 .LASF44
+     /tmp/cceJst07.s:2670   .debug_str:00000000000001b4 .LASF87
+     /tmp/cceJst07.s:2632   .debug_str:0000000000000077 .LASF88
+     /tmp/cceJst07.s:2690   .debug_str:0000000000000249 .LASF89
+     /tmp/cceJst07.s:2622   .debug_str:0000000000000031 .LASF51
+     /tmp/cceJst07.s:2790   .debug_str:00000000000005cb .LASF19
+     /tmp/cceJst07.s:2616   .debug_str:0000000000000000 .LASF21
+     /tmp/cceJst07.s:2732   .debug_str:000000000000037b .LASF23
+     /tmp/cceJst07.s:2746   .debug_str:00000000000003d8 .LASF25
+     /tmp/cceJst07.s:2648   .debug_str:000000000000010f .LASF20
+     /tmp/cceJst07.s:2750   .debug_str:00000000000003fc .LASF22
+     /tmp/cceJst07.s:2736   .debug_str:0000000000000399 .LASF24
+     /tmp/cceJst07.s:2658   .debug_str:0000000000000145 .LASF26
+     /tmp/cceJst07.s:2702   .debug_str:00000000000002a0 .LASF27
+     /tmp/cceJst07.s:2804   .debug_str:000000000000062c .LASF28
+     /tmp/cceJst07.s:2694   .debug_str:0000000000000270 .LASF29
+     /tmp/cceJst07.s:2624   .debug_str:0000000000000039 .LASF30
+     /tmp/cceJst07.s:2684   .debug_str:0000000000000213 .LASF31
+     /tmp/cceJst07.s:2796   .debug_str:00000000000005e7 .LASF32
+     /tmp/cceJst07.s:2754   .debug_str:000000000000041c .LASF90
+     /tmp/cceJst07.s:2760   .debug_str:000000000000043c .LASF62
+     /tmp/cceJst07.s:2706   .debug_str:00000000000002b6 .LASF64
+     /tmp/cceJst07.s:2650   .debug_str:0000000000000114 .LASF91
+     /tmp/cceJst07.s:2724   .debug_str:000000000000032b .LASF60
+     /tmp/cceJst07.s:2680   .debug_str:0000000000000206 .LASF33
+     /tmp/cceJst07.s:2718   .debug_str:0000000000000310 .LASF34
+     /tmp/cceJst07.s:2682   .debug_str:000000000000020b .LASF35
+     /tmp/cceJst07.s:2722   .debug_str:0000000000000321 .LASF36
+     /tmp/cceJst07.s:2678   .debug_str:00000000000001fd .LASF37
+     /tmp/cceJst07.s:2726   .debug_str:0000000000000342 .LASF38
+     /tmp/cceJst07.s:2696   .debug_str:000000000000027d .LASF40
+     /tmp/cceJst07.s:2664   .debug_str:000000000000017c .LASF42
+     /tmp/cceJst07.s:2788   .debug_str:00000000000005bd .LASF39
+     /tmp/cceJst07.s:2672   .debug_str:00000000000001c8 .LASF56
+     /tmp/cceJst07.s:2716   .debug_str:0000000000000307 .LASF41
+     /tmp/cceJst07.s:2652   .debug_str:000000000000011c .LASF43
+     /tmp/cceJst07.s:2768   .debug_str:000000000000045f .LASF45
+     /tmp/cceJst07.s:2666   .debug_str:0000000000000195 .LASF46
+     /tmp/cceJst07.s:2688   .debug_str:000000000000023e .LASF47
+GAS LISTING /tmp/cceJst07.s 			page 20
+
+
+     /tmp/cceJst07.s:2668   .debug_str:00000000000001a9 .LASF48
+     /tmp/cceJst07.s:2654   .debug_str:000000000000012f .LASF49
+     /tmp/cceJst07.s:2704   .debug_str:00000000000002ac .LASF50
+     /tmp/cceJst07.s:2778   .debug_str:000000000000056f .LASF52
+     /tmp/cceJst07.s:2756   .debug_str:0000000000000421 .LASF53
+     /tmp/cceJst07.s:2786   .debug_str:00000000000005b8 .LASF54
+     /tmp/cceJst07.s:2802   .debug_str:0000000000000627 .LASF55
+     /tmp/cceJst07.s:2770   .debug_str:0000000000000470 .LASF57
+     /tmp/cceJst07.s:2642   .debug_str:00000000000000e4 .LASF58
+     /tmp/cceJst07.s:2708   .debug_str:00000000000002c6 .LASF59
+     /tmp/cceJst07.s:2798   .debug_str:0000000000000609 .LASF61
+     /tmp/cceJst07.s:2674   .debug_str:00000000000001f0 .LASF63
+     /tmp/cceJst07.s:2738   .debug_str:00000000000003a4 .LASF65
+     /tmp/cceJst07.s:2630   .debug_str:0000000000000069 .LASF66
+     /tmp/cceJst07.s:2730   .debug_str:000000000000035c .LASF67
+     /tmp/cceJst07.s:2774   .debug_str:0000000000000554 .LASF68
+     /tmp/cceJst07.s:2692   .debug_str:0000000000000253 .LASF70
+     /tmp/cceJst07.s:2748   .debug_str:00000000000003ee .LASF69
+     /tmp/cceJst07.s:2644   .debug_str:00000000000000e9 .LASF71
+     /tmp/cceJst07.s:2720   .debug_str:0000000000000316 .LASF72
+     /tmp/cceJst07.s:2710   .debug_str:00000000000002cb .LASF73
+     /tmp/cceJst07.s:2618   .debug_str:0000000000000014 .LASF74
+     /tmp/cceJst07.s:2686   .debug_str:0000000000000220 .LASF75
+     /tmp/cceJst07.s:2752   .debug_str:0000000000000408 .LASF92
+     /tmp/cceJst07.s:2782   .debug_str:0000000000000594 .LASF93
+     /tmp/cceJst07.s:478    .text:00000000000002a8 .LFB28
+     /tmp/cceJst07.s:510    .text:00000000000002d8 .LFE28
+     /tmp/cceJst07.s:386    .text:000000000000021c .LFB27
+     /tmp/cceJst07.s:472    .text:00000000000002a8 .LFE27
+     /tmp/cceJst07.s:2794   .debug_str:00000000000005e2 .LASF76
+     /tmp/cceJst07.s:2386   .debug_loc:0000000000000000 .LLST13
+     /tmp/cceJst07.s:2762   .debug_str:0000000000000442 .LASF77
+     /tmp/cceJst07.s:2405   .debug_loc:000000000000005c .LLST14
+     /tmp/cceJst07.s:2416   .debug_loc:0000000000000092 .LLST15
+     /tmp/cceJst07.s:408    .text:0000000000000240 .LBB15
+     /tmp/cceJst07.s:426    .text:000000000000025c .LBE15
+     /tmp/cceJst07.s:2744   .debug_str:00000000000003d3 .LASF78
+     /tmp/cceJst07.s:2423   .debug_loc:00000000000000b5 .LLST16
+     /tmp/cceJst07.s:449    .text:0000000000000284 .LVL29
+     /tmp/cceJst07.s:348    .text:00000000000001ec .LFB26
+     /tmp/cceJst07.s:380    .text:000000000000021c .LFE26
+     /tmp/cceJst07.s:198    .text:0000000000000120 .LFB25
+     /tmp/cceJst07.s:262    .text:0000000000000188 .LFE25
+     /tmp/cceJst07.s:2443   .debug_loc:0000000000000112 .LLST8
+     /tmp/cceJst07.s:2454   .debug_loc:0000000000000148 .LLST9
+     /tmp/cceJst07.s:233    .text:000000000000015c .LVL17
+     /tmp/cceJst07.s:268    .text:0000000000000188 .LFB24
+     /tmp/cceJst07.s:342    .text:00000000000001ec .LFE24
+     /tmp/cceJst07.s:2604   .debug_ranges:0000000000000000 .Ldebug_ranges0
+     /tmp/cceJst07.s:2461   .debug_loc:000000000000016b .LLST10
+     /tmp/cceJst07.s:306    .text:00000000000001c0 .LBB11
+     /tmp/cceJst07.s:314    .text:00000000000001c4 .LBE11
+     /tmp/cceJst07.s:2468   .debug_loc:000000000000018e .LLST11
+     /tmp/cceJst07.s:2476   .debug_loc:00000000000001b2 .LLST12
+     /tmp/cceJst07.s:304    .text:00000000000001c0 .LVL21
+     /tmp/cceJst07.s:318    .text:00000000000001cc .LVL23
+     /tmp/cceJst07.s:163    .text:00000000000000f0 .LFB23
+GAS LISTING /tmp/cceJst07.s 			page 21
+
+
+     /tmp/cceJst07.s:192    .text:0000000000000120 .LFE23
+     /tmp/cceJst07.s:10     .text:0000000000000000 .LFB22
+     /tmp/cceJst07.s:157    .text:00000000000000f0 .LFE22
+     /tmp/cceJst07.s:2483   .debug_loc:00000000000001d5 .LLST0
+     /tmp/cceJst07.s:2501   .debug_loc:0000000000000221 .LLST1
+     /tmp/cceJst07.s:2519   .debug_loc:000000000000026d .LLST2
+     /tmp/cceJst07.s:2538   .debug_loc:00000000000002c9 .LLST3
+     /tmp/cceJst07.s:35     .text:000000000000002c .LBB8
+     /tmp/cceJst07.s:44     .text:0000000000000038 .LBE8
+     /tmp/cceJst07.s:2562   .debug_loc:0000000000000339 .LLST4
+     /tmp/cceJst07.s:2570   .debug_loc:000000000000035d .LLST5
+     /tmp/cceJst07.s:2577   .debug_loc:0000000000000380 .LLST6
+     /tmp/cceJst07.s:2584   .debug_loc:00000000000003a3 .LLST7
+     /tmp/cceJst07.s:34     .text:000000000000002c .LVL2
+     /tmp/cceJst07.s:2800   .debug_str:0000000000000622 .LASF79
+     /tmp/cceJst07.s:2780   .debug_str:0000000000000574 .LASF94
+     /tmp/cceJst07.s:2698   .debug_str:000000000000028b .LASF80
+     /tmp/cceJst07.s:2640   .debug_str:00000000000000d4 .LASF82
+     /tmp/cceJst07.s:2764   .debug_str:0000000000000447 .LASF81
+     /tmp/cceJst07.s:2792   .debug_str:00000000000005d5 .LASF83
+     /tmp/cceJst07.s:407    .text:0000000000000240 .LVL24
+     /tmp/cceJst07.s:416    .text:0000000000000250 .LVL25
+     /tmp/cceJst07.s:422    .text:0000000000000258 .LVL26
+     /tmp/cceJst07.s:464    .text:000000000000029c .LVL30
+     /tmp/cceJst07.s:430    .text:0000000000000264 .LVL27
+     /tmp/cceJst07.s:443    .text:0000000000000278 .LVL28
+     /tmp/cceJst07.s:217    .text:0000000000000140 .LVL15
+     /tmp/cceJst07.s:249    .text:0000000000000174 .LVL18
+     /tmp/cceJst07.s:256    .text:0000000000000180 .LVL19
+     /tmp/cceJst07.s:229    .text:0000000000000154 .LVL16
+     /tmp/cceJst07.s:312    .text:00000000000001c4 .LVL22
+     /tmp/cceJst07.s:14     .text:0000000000000000 .LVL0
+     /tmp/cceJst07.s:32     .text:0000000000000024 .LVL1
+     /tmp/cceJst07.s:152    .text:00000000000000e8 .LVL14
+     /tmp/cceJst07.s:149    .text:00000000000000e4 .LVL13
+     /tmp/cceJst07.s:55     .text:000000000000004c .LVL4
+     /tmp/cceJst07.s:71     .text:0000000000000064 .LVL5
+     /tmp/cceJst07.s:76     .text:000000000000006c .LVL6
+     /tmp/cceJst07.s:79     .text:0000000000000070 .LVL7
+     /tmp/cceJst07.s:91     .text:0000000000000084 .LVL8
+     /tmp/cceJst07.s:139    .text:00000000000000d8 .LVL12
+     /tmp/cceJst07.s:116    .text:00000000000000ac .LVL9
+     /tmp/cceJst07.s:124    .text:00000000000000c0 .LVL10
+     /tmp/cceJst07.s:129    .text:00000000000000c8 .LVL11
+     /tmp/cceJst07.s:42     .text:0000000000000038 .LVL3
+     /tmp/cceJst07.s:531    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/cceJst07.s:272    .text:0000000000000188 .LBB10
+     /tmp/cceJst07.s:282    .text:000000000000019c .LBE10
+     /tmp/cceJst07.s:295    .text:00000000000001b0 .LBB13
+     /tmp/cceJst07.s:319    .text:00000000000001cc .LBE13
+     /tmp/cceJst07.s:322    .text:00000000000001cc .LBB14
+     /tmp/cceJst07.s:329    .text:00000000000001d8 .LBE14
+
+UNDEFINED SYMBOLS
+_Znwm
+_ZdlPv
+_ZN9Scheduler3putEP3TCB
+GAS LISTING /tmp/cceJst07.s 			page 22
+
+
